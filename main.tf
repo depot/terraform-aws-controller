@@ -78,7 +78,7 @@ resource "aws_iam_policy" "controller" {
           Resource = local.target-assume-role-arns
         },
       ],
-      var.auto-update-enabled ? [
+      var.auto-update-enabled ? tolist([
         {
           Action   = ["ecs:ListTasks", "ecs:DescribeTasks", "ecs:DescribeServices"]
           Effect   = "Allow"
@@ -87,12 +87,14 @@ resource "aws_iam_policy" "controller" {
             ArnEquals = { "ecs:cluster" = data.aws_ecs_cluster.cluster.arn }
           }
         },
+      ]) : [],
+      var.auto-update-enabled ? tolist([
         {
           Action   = ["ecs:UpdateService"]
           Effect   = "Allow"
-          Resource = local.service-arn
+          Resource = [local.service-arn]
         },
-      ] : [],
+      ]) : [],
     )
   })
   tags = var.tags
