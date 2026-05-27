@@ -1,0 +1,27 @@
+{
+  "service-name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "depot-controller-acme"
+  },
+  "task-role-arn": {
+    "sensitive": false,
+    "type": "string",
+    "value": "arn:aws:iam::123456789012:role/depot-controller-acme"
+  },
+  "execution-role-arn": {
+    "sensitive": false,
+    "type": "string",
+    "value": "arn:aws:iam::123456789012:role/depot-controller-acme-ecs"
+  },
+  "log-group-name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "depot-controller-acme"
+  },
+  "token": {
+    "sensitive": false,
+    "type": "string",
+    "value": "/depot/controller/acme-token"
+  }
+}
