@@ -2,22 +2,22 @@
   "service-name": {
     "sensitive": false,
     "type": "string",
-    "value": "depot-cloudd-acme"
+    "value": "depot-controller-acme"
   },
   "task-role-arn": {
     "sensitive": false,
     "type": "string",
-    "value": "arn:aws:iam::123456789012:role/depot-cloudd-acme"
+    "value": "arn:aws:iam::123456789012:role/depot-controller-acme"
   },
   "execution-role-arn": {
     "sensitive": false,
     "type": "string",
-    "value": "arn:aws:iam::123456789012:role/depot-cloudd-acme-ecs"
+    "value": "arn:aws:iam::123456789012:role/depot-controller-acme-ecs"
   },
   "log-group-name": {
     "sensitive": false,
     "type": "string",
-    "value": "depot-cloudd-acme"
+    "value": "depot-controller-acme"
   },
   "token": {
     "sensitive": false,
