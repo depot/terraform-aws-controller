@@ -26,7 +26,7 @@ settings page and store it in SSM under the value passed to `token`.
 By default, the task role can assume target account roles matching:
 
 ```text
-arn:aws:iam::*:role/depot-connection-*-control-plane
+arn:<current AWS partition>:iam::*:role/depot-connection-*-control-plane
 ```
 
 Pass `assume-role-arns` when the Depot controller should be restricted to a narrower set of

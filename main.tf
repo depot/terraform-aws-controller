@@ -16,7 +16,7 @@ data "aws_ssm_parameter" "depot-token" {
 locals {
   service-name            = coalesce(var.service-name, "depot-controller-${var.name}")
   service-arn             = "arn:${data.aws_partition.current.partition}:ecs:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:service/${var.ecs-cluster-name}/${local.service-name}"
-  target-assume-role-arns = length(var.assume-role-arns) == 0 ? ["arn:aws:iam::*:role/depot-connection-*-control-plane"] : var.assume-role-arns
+  target-assume-role-arns = length(var.assume-role-arns) == 0 ? ["arn:${data.aws_partition.current.partition}:iam::*:role/depot-connection-*-control-plane"] : var.assume-role-arns
 }
 
 resource "aws_iam_role" "execution-role" {
@@ -48,7 +48,7 @@ resource "aws_iam_policy" "execution-role" {
 resource "aws_iam_role_policy_attachments_exclusive" "execution-role" {
   role_name = aws_iam_role.execution-role.name
   policy_arns = [
-    "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy",
+    "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy",
     aws_iam_policy.execution-role.arn,
   ]
 }
