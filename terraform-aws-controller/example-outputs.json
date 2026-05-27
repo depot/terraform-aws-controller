@@ -22,6 +22,6 @@
   "token": {
     "sensitive": false,
     "type": "string",
-    "value": "/depot/cloudd/acme-token"
+    "value": "/depot/controller/acme-token"
   }
 }
