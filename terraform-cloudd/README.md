@@ -8,7 +8,7 @@ module "cloudd" {
   version = "x.x.x"
 
   name               = "acme"
-  token              = "depot-cloudd-acme-token"
+  token              = "/depot/cloudd/acme-token"
   ecs-cluster-name   = "cluster"
   subnet-ids         = ["subnet-abc123", "subnet-def456"]
   security-group-ids = ["sg-abc123"]
@@ -63,6 +63,6 @@ target connection role ARNs.
 | <a name="output_log-group-name"></a> [log-group-name](#output_log-group-name) | CloudWatch log group name for cloudd. | `"depot-cloudd-acme"` | no |
 | <a name="output_service-name"></a> [service-name](#output_service-name) | Name of the cloudd ECS service. | `"depot-cloudd-acme"` | no |
 | <a name="output_task-role-arn"></a> [task-role-arn](#output_task-role-arn) | ARN of the cloudd task role. | `"arn:aws:iam::123456789012:role/depot-cloudd-acme"` | no |
-| <a name="output_token"></a> [token](#output_token) | SSM parameter name used as DEPOT_API_TOKEN for cloudd. | `"depot-cloudd-acme-token"` | no |
+| <a name="output_token"></a> [token](#output_token) | SSM parameter name used as DEPOT_API_TOKEN for cloudd. | `"/depot/cloudd/acme-token"` | no |
 
 <!-- END_TF_DOCS -->
