@@ -14,10 +14,25 @@
     "type": "string",
     "value": "arn:aws:iam::123456789012:role/depot-controller-acme-ecs"
   },
+  "controller-role-arn": {
+    "sensitive": false,
+    "type": "string",
+    "value": "arn:aws:iam::123456789012:role/depot-controller-acme"
+  },
+  "controller-role-name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "depot-controller-acme"
+  },
   "log-group-name": {
     "sensitive": false,
     "type": "string",
     "value": "depot-controller-acme"
+  },
+  "partition": {
+    "sensitive": false,
+    "type": "string",
+    "value": "aws"
   },
   "token": {
     "sensitive": false,
