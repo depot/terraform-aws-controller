@@ -84,7 +84,7 @@ variable "availability-zone-rebalancing" {
 
 variable "assume-role-arns" {
   type        = list(string)
-  description = "Target account role ARNs the Depot controller may assume. Defaults to the standard Depot connection control-plane role name in any account."
+  description = "Target account role ARNs the Depot controller may assume. Defaults to the standard Depot connection controller role name in any account."
   default     = []
 }
 

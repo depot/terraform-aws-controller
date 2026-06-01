@@ -16,7 +16,7 @@ data "aws_ssm_parameter" "depot-token" {
 locals {
   service-name            = coalesce(var.service-name, "depot-controller-${var.name}")
   service-arn             = "arn:${data.aws_partition.current.partition}:ecs:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:service/${var.ecs-cluster-name}/${local.service-name}"
-  target-assume-role-arns = length(var.assume-role-arns) == 0 ? ["arn:${data.aws_partition.current.partition}:iam::*:role/depot-connection-*-control-plane"] : var.assume-role-arns
+  target-assume-role-arns = length(var.assume-role-arns) == 0 ? ["arn:${data.aws_partition.current.partition}:iam::*:role/depot-connection-*-controller"] : var.assume-role-arns
 }
 
 resource "aws_iam_role" "execution-role" {

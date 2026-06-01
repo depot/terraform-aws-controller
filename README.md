@@ -26,11 +26,16 @@ settings page and store it in SSM under the value passed to `token`.
 By default, the task role can assume target account roles matching:
 
 ```text
-arn:<current AWS partition>:iam::*:role/depot-connection-*-control-plane
+arn:<current AWS partition>:iam::*:role/depot-connection-*-controller
 ```
 
 Pass `assume-role-arns` when the Depot controller should be restricted to a narrower set of
 target connection role ARNs.
+
+Pass this module's `controller-role-arn` output into each `depot/connection/aws`
+module in the same AWS partition. For GovCloud, run this module with an
+`aws-us-gov` provider/account so the controller role ARN originates from the
+GovCloud partition.
 
 ## Auto-update behavior
 
@@ -60,7 +65,7 @@ environment variables, and does not grant the Depot controller ECS update permis
 | <a name="input_subnet-ids"></a> [subnet-ids](#input_subnet-ids) | Existing subnet IDs for the Depot controller ECS service. | `list(string)` | n/a | yes |
 | <a name="input_token"></a> [token](#input_token) | SSM parameter name containing DEPOT_API_TOKEN for the Depot controller. | `string` | n/a | yes |
 | <a name="input_assign-public-ip"></a> [assign-public-ip](#input_assign-public-ip) | Whether ECS should assign public IPs to Depot controller tasks. | `bool` | `true` | no |
-| <a name="input_assume-role-arns"></a> [assume-role-arns](#input_assume-role-arns) | Target account role ARNs the Depot controller may assume. Defaults to the standard Depot connection control-plane role name in any account. | `list(string)` | `[]` | no |
+| <a name="input_assume-role-arns"></a> [assume-role-arns](#input_assume-role-arns) | Target account role ARNs the Depot controller may assume. Defaults to the standard Depot connection controller role name in any account. | `list(string)` | `[]` | no |
 | <a name="input_availability-zone-rebalancing"></a> [availability-zone-rebalancing](#input_availability-zone-rebalancing) | Availability zone rebalancing setting for the ECS service. | `string` | `"ENABLED"` | no |
 | <a name="input_auto-update-enabled"></a> [auto-update-enabled](#input_auto-update-enabled) | Whether the Depot controller should force a new ECS service deployment when Depot reports a newer active Depot controller version. | `bool` | `true` | no |
 | <a name="input_controller-image"></a> [controller-image](#input_controller-image) | Container image to run for the Depot controller. | `string` | `"ghcr.io/depot/cloudd:main"` | no |
@@ -78,7 +83,10 @@ environment variables, and does not grant the Depot controller ECS update permis
 | Name | Description | Value | Sensitive |
 |------|-------------|-------|:---------:|
 | <a name="output_execution-role-arn"></a> [execution-role-arn](#output_execution-role-arn) | ARN of the Depot controller ECS execution role. | `"arn:aws:iam::123456789012:role/depot-controller-acme-ecs"` | no |
+| <a name="output_controller-role-arn"></a> [controller-role-arn](#output_controller-role-arn) | ARN of the Depot controller role for connection modules to trust. | `"arn:aws:iam::123456789012:role/depot-controller-acme"` | no |
+| <a name="output_controller-role-name"></a> [controller-role-name](#output_controller-role-name) | Name of the Depot controller role. | `"depot-controller-acme"` | no |
 | <a name="output_log-group-name"></a> [log-group-name](#output_log-group-name) | CloudWatch log group name for the Depot controller. | `"depot-controller-acme"` | no |
+| <a name="output_partition"></a> [partition](#output_partition) | AWS partition for this controller. | `"aws"` | no |
 | <a name="output_service-name"></a> [service-name](#output_service-name) | Name of the Depot controller ECS service. | `"depot-controller-acme"` | no |
 | <a name="output_task-role-arn"></a> [task-role-arn](#output_task-role-arn) | ARN of the Depot controller task role. | `"arn:aws:iam::123456789012:role/depot-controller-acme"` | no |
 | <a name="output_token"></a> [token](#output_token) | SSM parameter name used as DEPOT_API_TOKEN for the Depot controller. | `"/depot/controller/acme-token"` | no |
