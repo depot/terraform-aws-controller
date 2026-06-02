@@ -43,13 +43,24 @@ variable "service-name" {
 variable "controller-image" {
   type        = string
   description = "Container image to run for the Depot controller."
-  default     = "ghcr.io/depot/cloudd:main"
+  default     = "ghcr.io/depot/cloudd:stable"
 }
 
 variable "auto-update-enabled" {
   type        = bool
   description = "Whether the Depot controller should force a new ECS service deployment when Depot reports a newer active Depot controller version."
   default     = true
+}
+
+variable "auto-update-channel" {
+  type        = string
+  description = "Depot controller release channel to use for auto-update checks."
+  default     = "stable"
+
+  validation {
+    condition     = contains(["main", "stable"], var.auto-update-channel)
+    error_message = "auto-update-channel must be either main or stable."
+  }
 }
 
 variable "task-count" {
