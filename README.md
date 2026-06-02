@@ -9,6 +9,8 @@ module "controller" {
 
   name               = "acme"
   token              = "/depot/controller/acme-token"
+  # Optional when the token SecureString uses a customer-managed KMS key.
+  token-kms-key-arn  = "arn:aws:kms:us-east-1:123456789012:key/00000000-0000-0000-0000-000000000000"
   ecs-cluster-name   = "cluster"
   subnet-ids         = ["subnet-abc123", "subnet-def456"]
   security-group-ids = ["sg-abc123"]
@@ -21,7 +23,10 @@ This module starts the Depot controller service only. It expects:
 - an ECS cluster, subnets, and security group to already exist
 
 For customer-managed Depot controllers, create the token from the Depot organization
-settings page and store it in SSM under the value passed to `token`.
+settings page and store it in SSM under the value passed to `token`. Use a
+`SecureString` parameter for the token. When the SecureString uses a
+customer-managed KMS key, pass that key ARN as `token-kms-key-arn` so the ECS
+execution role can decrypt the secret at task startup.
 
 By default, the task role can assume target account roles matching:
 
@@ -77,6 +82,7 @@ environment variables, and does not grant the Depot controller ECS update permis
 | <a name="input_task-count"></a> [task-count](#input_task-count) | Desired count of Depot controller tasks. | `number` | `1` | no |
 | <a name="input_task-cpu"></a> [task-cpu](#input_task-cpu) | CPU units for the Depot controller Fargate task. | `number` | `1024` | no |
 | <a name="input_task-memory"></a> [task-memory](#input_task-memory) | Memory in MiB for the Depot controller Fargate task. | `number` | `2048` | no |
+| <a name="input_token-kms-key-arn"></a> [token-kms-key-arn](#input_token-kms-key-arn) | Customer-managed KMS key ARN used to encrypt the DEPOT_API_TOKEN SecureString parameter. Leave null when using the AWS-managed SSM key. | `string` | `null` | no |
 
 ## Outputs
 

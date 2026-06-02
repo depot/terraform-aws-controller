@@ -10,6 +10,12 @@ variable "token" {
   description = "SSM parameter name containing DEPOT_API_TOKEN for the Depot controller."
 }
 
+variable "token-kms-key-arn" {
+  type        = string
+  description = "Customer-managed KMS key ARN used to encrypt the DEPOT_API_TOKEN SecureString parameter. Leave null when using the AWS-managed SSM key."
+  default     = null
+}
+
 variable "subnet-ids" {
   type        = list(string)
   description = "Existing subnet IDs for the Depot controller ECS service."

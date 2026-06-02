@@ -36,11 +36,22 @@ resource "aws_iam_policy" "execution-role" {
   name = "depot-controller-${var.name}-ecs"
   policy = jsonencode({
     Version = "2012-10-17"
-    Statement = [{
-      Action   = ["ssm:GetParameters"]
-      Effect   = "Allow"
-      Resource = data.aws_ssm_parameter.depot-token.arn
-    }]
+    Statement = concat(
+      [
+        {
+          Action   = ["ssm:GetParameters"]
+          Effect   = "Allow"
+          Resource = data.aws_ssm_parameter.depot-token.arn
+        },
+      ],
+      var.token-kms-key-arn == null ? [] : [
+        {
+          Action   = ["kms:Decrypt"]
+          Effect   = "Allow"
+          Resource = var.token-kms-key-arn
+        },
+      ],
+    )
   })
   tags = var.tags
 }
