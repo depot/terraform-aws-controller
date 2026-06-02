@@ -45,13 +45,19 @@ GovCloud partition.
 ## Auto-update behavior
 
 Auto-update is enabled by default. When Depot reports a newer active Depot controller
-version, the Depot controller asks ECS to force a new deployment of this service. This lets
-ECS resolve mutable image tags, such as `ghcr.io/depot/cloudd:main`, to fresh
-image digests for the new deployment.
+version for the configured `auto-update-channel`, the Depot controller asks ECS to
+force a new deployment of this service. This lets ECS resolve mutable image tags,
+such as `ghcr.io/depot/cloudd:stable`, to fresh image digests for the new
+deployment.
 
 This only upgrades automatically when `controller-image` uses a mutable tag. If the
 image is pinned to a digest, ECS will keep deploying that digest until Terraform
 or another external release process updates the task definition image.
+
+The default channel is `stable`, matching the default
+`controller-image = "ghcr.io/depot/cloudd:stable"`. Depot-owned staging
+controllers can set both `controller-image = "ghcr.io/depot/cloudd:main"` and
+`auto-update-channel = "main"` to follow merges to `main`.
 
 Set `auto-update-enabled = false` for customer-hosted or high-compliance
 installations that manage upgrades externally. In that mode, the module sets
@@ -73,7 +79,8 @@ environment variables, and does not grant the Depot controller ECS update permis
 | <a name="input_assume-role-arns"></a> [assume-role-arns](#input_assume-role-arns) | Target account role ARNs the Depot controller may assume. Defaults to the standard Depot connection controller role name in any account. | `list(string)` | `[]` | no |
 | <a name="input_availability-zone-rebalancing"></a> [availability-zone-rebalancing](#input_availability-zone-rebalancing) | Availability zone rebalancing setting for the ECS service. | `string` | `"ENABLED"` | no |
 | <a name="input_auto-update-enabled"></a> [auto-update-enabled](#input_auto-update-enabled) | Whether the Depot controller should force a new ECS service deployment when Depot reports a newer active Depot controller version. | `bool` | `true` | no |
-| <a name="input_controller-image"></a> [controller-image](#input_controller-image) | Container image to run for the Depot controller. | `string` | `"ghcr.io/depot/cloudd:main"` | no |
+| <a name="input_auto-update-channel"></a> [auto-update-channel](#input_auto-update-channel) | Depot controller release channel to use for auto-update checks. | `string` | `"stable"` | no |
+| <a name="input_controller-image"></a> [controller-image](#input_controller-image) | Container image to run for the Depot controller. | `string` | `"ghcr.io/depot/cloudd:stable"` | no |
 | <a name="input_ecs-cluster-name"></a> [ecs-cluster-name](#input_ecs-cluster-name) | Existing ECS cluster name where the Depot controller should run. | `string` | `"cluster"` | no |
 | <a name="input_extra-env"></a> [extra-env](#input_extra-env) | Extra environment variables for the Depot controller. | `list(object({ name = string, value = string }))` | `[]` | no |
 | <a name="input_log-retention"></a> [log-retention](#input_log-retention) | Number of days to keep CloudWatch logs for the Depot controller. | `number` | `30` | no |

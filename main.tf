@@ -139,6 +139,7 @@ resource "aws_ecs_task_definition" "controller" {
     environment = concat(
       [
         { name = "CLOUDD_AUTO_UPDATER_ENABLED", value = tostring(var.auto-update-enabled) },
+        { name = "CLOUDD_AUTO_UPDATER_CHANNEL", value = var.auto-update-channel },
         { name = "_CLOUDD_TOKEN_VERSION", value = tostring(data.aws_ssm_parameter.depot-token.version) },
       ],
       var.auto-update-enabled ? [
